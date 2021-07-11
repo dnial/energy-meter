@@ -20,10 +20,8 @@ class Meter(APIView):
             end_date = ciso8601.parse_datetime(end_query)
 
             if end_date.hour == 0 and end_date.minute == 0 and end_date.second == 0:
-                print("replace")
                 end_date = end_date.replace(hour=23, minute=59, second=59)
             else:
-                print("no repolaxe")
             
         except Exception as ex:
             print(f"exception: {ex}")
