@@ -4,10 +4,12 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
-from meter_usage_web.api import views
+from meter_usage_web.api import views as api_views
+from meter_usage_web.web import views as web_views
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", web_views.index, name="home"),
+    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
@@ -16,8 +18,7 @@ urlpatterns = [
     # User management
     path("users/", include("meter_usage_web.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    path("meter/", views.Meter.as_view()),
-    path("start-meter/", views.index),
+    path("meter/", api_views.Meter.as_view()),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
