@@ -53,10 +53,12 @@ The key files for the webserver code is in `energy-meter/meter_usage_web/meter_u
 For the html and javascript is in: `energy-meter/meter_usage_web/meter_usage_web/templates/pages/home.html`
 
 
-## Decision Log
+## Decision taken
 * I use Unary gRPC because it is the simplest grpc method. Plan to use other method like streaming but don't have enough time.
 * I use django cookie cutter from here: `https://github.com/pydanny/cookiecutter-django` to speed up development for the webserver. It has a lot of unused file, because it is designed for production ready services with all bell and whistles. But most of it not used now due to time constraint.
 * I use jquery for the webpage because I know jquery and it is simple enough to do what I need.
-* I use chart.js to better present the time series data, because I have some time to not just print the json result. The problem I encounter is updating the chart is complicated, I choose to remove the html node and recreate it with new chart.
+* I use chart.js to better present the time series data, because I have some time to not just print the json result. The problem I encounter is updating the chart is complicated, I choose to remove the html node and recreate it with new chart. This is the first time I use the library so my knowledge is limited, so perhaps better way exist.
 * It is better to use the compiled proto as shared library but to make it work need some times, I choose to copy it to wherever it is needed.
 * I pick timestamp not date for saving the time series data so it should compatible with different timezones. But this still not properly implemented, because I still use local timezone. Because I use local timezone, data migration is needed because so it will be run in your timezone. This is one of the part that need to be fixed next.
+* No unit test because time constraint, I feel that the scope is small enough to do manual test, and it have many external dependencies and not many business logic to test.
+* I use sql lite because it is simple and enough for the scope. I also exploring using pandas, but decided it is too complex and risky. I already spent hours just to make the python and grpc running in my machine.
