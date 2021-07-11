@@ -21,7 +21,6 @@ class Meter(APIView):
 
             if end_date.hour == 0 and end_date.minute == 0 and end_date.second == 0:
                 end_date = end_date.replace(hour=23, minute=59, second=59)
-            else:
             
         except Exception as ex:
             print(f"exception: {ex}")
