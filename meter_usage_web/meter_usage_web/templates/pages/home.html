@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Enter Start Date and End Date{% endblock %}
+
+{% block content %}
+<h1>Start Date</h1>
+
+<p> START: <input type="date" value={{start_date}} id="start_date">  </p>
+<p>END: <input type="date" value={{end_date}} id="end_date"> </p>
+
+<button id="btnPlot">Plot Chart</button>
+
+<div id="chart">
+    <canvas id="myChart"></canvas>
+</div>
+
+
+<script>
+    $("#btnPlot").click(
+        function(){
+            get_measurement();
+        }
+    );
+
+    function plotChart(labels, values) {
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: values,
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data,
+            options: {}
+        };
+
+        var grapharea = document.getElementById("myChart").getContext("2d");
+
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+
+    }
+
+
+    function get_measurement() {
+        $('#myChart').replaceWith('<canvas id="myChart" style="height:280px"></canvas>');
+
+        start_str = $("#start_date").val();
+        end_str = $("#end_date").val();
+        url = "http://localhost:8000/meter/?start=" + start_str + "&end=" + end_str;
+
+        $.ajax({
+            url: "http://localhost:8000/meter/?start=" + start_str + "&end=" + end_str,
+            dataType: "json",
+            success: function (data) {
+                var labels = [];
+                var values = [];
+                for (const j of data.list) {
+                    labels.push(j["time"])
+                    values.push(j["value"])
+                }
+
+                plotChart(labels, values);
+            }
+        });
+
+    };
+
+
+</script>
+
+{% endblock content %}
