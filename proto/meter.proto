@@ -4,14 +4,22 @@ package energy_meter;
 import "google/protobuf/timestamp.proto";
 
 
-message Measurement {
+service MeasurementService{
+  // A simple RPC.
+  //
+  // Obtains the MessageResponse at a given position.
+ rpc GetServerResponse(MeterList) returns (MeterList) {}
+
+}
+
+message Meter {
   google.protobuf.Timestamp time = 1;
   double value = 2;
 }
 
-message MeasurementList {
-    google.protobuf.Timestamp from = 1;
-    google.protobuf.Timestamp to = 2;
-    repeated Measurement list = 3;
+message MeterList {
+    google.protobuf.Timestamp start = 1;
+    google.protobuf.Timestamp end = 2;
+    repeated Meter list = 3;
 }
 
